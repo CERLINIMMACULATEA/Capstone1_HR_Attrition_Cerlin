@@ -8,12 +8,11 @@ st.write("By Cerlin Immaculate A | B.E 2026 | Python | MySQL | Power BI")
 
 df = pd.read_csv("HR_Attrition_Cleaned.csv")
 
-# Attrition column 0/1 ah iruntha Yes/No ah maathu
-if df['Attrition'].dtype != object:
-    df['Attrition'] = df['Attrition'].map({1:'Yes', 0:'No'})
-if 'OverTime' in df.columns and df['OverTime'].dtype != object:
-    df['OverTime'] = df['OverTime'].map({1:'Yes', 0:'No'})
+# Attrition column ah sari pannu - 1/0, Yes/No ellam handle pannum
+df['Attrition'] = df['Attrition'].astype(str).str.strip().str.lower().map({'1':'Yes','1.0':'Yes','yes':'Yes','y':'Yes','true':'Yes','0':'No','0.0':'No','no':'No','n':'No','false':'No'})
 
+if 'OverTime' in df.columns:
+    df['OverTime'] = df['OverTime'].astype(str).str.strip().str.lower().map({'1':'Yes','1.0':'Yes','yes':'Yes','y':'Yes','true':'Yes','0':'No','0.0':'No','no':'No','n':'No','false':'No'})
 total = len(df)
 left = (df['Attrition']=='Yes').sum()
 rate = left/total*100
